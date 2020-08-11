@@ -1,0 +1,16 @@
+/* some colors you may find useful:
+  #115ff4
+  #060ce9
+  #28a200
+  #8d2ab5
+  #74119c
+*/
+
+body {
+	background-color: rgb(231, 204, 168);
+}
+
+h1 {
+	font-size: 50px;
+	font-family: Montserrat;
+}
