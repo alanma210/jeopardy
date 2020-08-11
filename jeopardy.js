@@ -103,17 +103,20 @@ async function getCategory(catId) {
 
 async function fillTable() {
 	const cat_ids = await getCategoryIds(); // return 6 random cat_ids
+	// console.log(cat_ids);
+	for (let cat_id of cat_ids) {
+		const cats = await getCategory(cat_id);
+		categories.push(cats);
+	}
+	console.log(categories);
 
-	console.log(cat_ids);
 	const table = document.querySelector('#jeopardy');
 	const tHeader = document.createElement('thead');
 	const topRow = document.createElement('tr');
 	const tBody = document.createElement('tbody');
 	for (let cat_id of cat_ids) {
-		console.log(cat_id);
 		const headCell = document.createElement('td');
 		const cats = await getCategory(cat_id);
-		console.log(cats.title);
 		headCell.innerText = cats.title.toUpperCase();
 		topRow.append(headCell);
 	}

@@ -31,3 +31,12 @@ div#game {
 	font-size: 15px;
 	text-align: center;
 }
+
+tr {
+	border: 1px solid white;
+	background-color: #060ce9;
+	font-family: IBM Plex Sans;
+	color: white;
+	font-size: 15px;
+	text-align: center;
+}
