@@ -47,10 +47,11 @@ async function getCategoryIds() {
 	let cat_ids = [];
 	const url = `https://jservice.io/api/random/?count=100`;
 	const res = await axios.get(url);
+	// console.log(res);
 	let numResults = res.data.length;
 	if (numResults) {
 		let clues = res.data;
-		console.log(clues);
+		// console.log(clues);
 		for (let clue of clues) {
 			cat_ids.push(clue.category.id);
 		}
@@ -58,7 +59,7 @@ async function getCategoryIds() {
 	const uniqueCats = [...new Set(cat_ids)];
 	cat_ids = shuffle(uniqueCats);
 	cat_ids = cat_ids.slice(0, 6);
-	console.log(cat_ids);
+	// console.log(cat_ids);
 	return cat_ids;
 }
 
@@ -88,7 +89,7 @@ async function getCategory(catId) {
 		clueArray.push(clueObj); // attach clue objects to clueArray
 	}
 	cat.clues = clueArray; // attach clueArray to cat object
-	console.log(cat);
+	// console.log(cat);
 	return cat;
 }
 
@@ -101,23 +102,24 @@ async function getCategory(catId) {
  */
 
 async function fillTable() {
-	const promise = getCategoryIds(); // return 6 random cat_ids
-	const cat_ids = await axios.get(promise);
+	const cat_ids = await getCategoryIds(); // return 6 random cat_ids
+
 	console.log(cat_ids);
-	// let cat = [];
-	// for (let cat_id of cat_ids) {
-	// 	console.log(cat_id);
-	// }
-	// console.log(cat);
-	// const table = document.querySelector('#jeopardy');
-	// const tHeader = document.createElement('thead');
-	// const topRow = document.createElement('tr');
-	// for (let x = 0; x < 6; x++) {
-	// 	const headCell = document.createElement('td');
-	// 	headCell.innerText = topRow.append(headCell);
-	// }
-	// tHeader.append(topRow);
-	// table.append(tHeader);
+	const table = document.querySelector('#jeopardy');
+	const tHeader = document.createElement('thead');
+	const topRow = document.createElement('tr');
+	const tBody = document.createElement('tbody');
+	for (let cat_id of cat_ids) {
+		console.log(cat_id);
+		const headCell = document.createElement('td');
+		const cats = await getCategory(cat_id);
+		console.log(cats.title);
+		headCell.innerText = cats.title.toUpperCase();
+		topRow.append(headCell);
+	}
+
+	tHeader.append(topRow);
+	table.append(tHeader);
 }
 
 /** Handle clicking on a clue: show the question or answer.

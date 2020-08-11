@@ -14,3 +14,13 @@ h1 {
 	font-size: 50px;
 	font-family: Montserrat;
 }
+
+table#jeopardy,
+th,
+td {
+	border: 1px solid white;
+	background-color: #060ce9;
+	font-family: IBM Plex Sans;
+	color: white;
+	font-size: 15px;
+}
