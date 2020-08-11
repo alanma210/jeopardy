@@ -117,10 +117,22 @@ async function fillTable() {
 		headCell.innerText = cats.title.toUpperCase();
 		topRow.append(headCell);
 	}
-
 	tHeader.append(topRow);
 	table.append(tHeader);
+
+	for (let cat_id of cat_ids) {
+		const headCell = document.createElement('td');
+		for (let i = 0; i < 5; i++) {
+			const bodyCell = document.createElement('tr');
+			bodyCell.innerText = '?';
+			headCell.append(bodyCell);
+			tBody.append(headCell);
+		}
+	}
+	table.append(tBody);
 }
+
+fillTable();
 
 /** Handle clicking on a clue: show the question or answer.
  *

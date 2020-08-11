@@ -15,12 +15,19 @@ h1 {
 	font-family: Montserrat;
 }
 
-table#jeopardy,
-th,
-td {
+div#game {
+	text-align: center;
+}
+
+#jeopardy,
+#jeopardy thead,
+#jeopardy td,
+#jeopardy tr,
+#jeopardy tbody td tr {
 	border: 1px solid white;
 	background-color: #060ce9;
 	font-family: IBM Plex Sans;
 	color: white;
 	font-size: 15px;
+	text-align: center;
 }
