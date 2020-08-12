@@ -59,7 +59,7 @@ async function getCategoryIds() {
 	const uniqueCats = [...new Set(cat_ids)];
 	cat_ids = shuffle(uniqueCats);
 	cat_ids = cat_ids.slice(0, 6);
-	console.log(cat_ids);
+	// console.log(cat_ids);
 	return cat_ids;
 }
 
@@ -151,7 +151,7 @@ async function fillTable() {
 	table.append(tBody);
 }
 
-fillTable();
+// fillTable();
 
 /** Handle clicking on a clue: show the question or answer.
  *
@@ -163,16 +163,22 @@ fillTable();
 
 function handleClick(e) {
 	const target = e.target.id;
-	console.log(target);
+	// console.log(target);
 	const targetCell = document.getElementById(target);
-	console.log(targetCell);
+	// console.log(targetCell);
 	const x = target.substr(0, 1);
 	const y = target.substr(2, 1);
 	const cat = categories[x].title;
-	console.log(cat);
+	// console.log(cat);
 	const clue = categories[x].clues[y];
-	console.log(clue);
-	console.log(clue.question);
+	// console.log(clue);
+	// console.log(clue.question);
+
+	// let answer = clue.answer;
+	// console.log(answer);
+	// if (answer.substr(0, 1) === '<') {
+	// 	answer = answer.substing(2, answer.length - 4);
+	// }
 	if (clue.showing === 'null') {
 		clue.showing = 'question';
 		targetCell.innerText = clue.question;
@@ -187,11 +193,28 @@ function handleClick(e) {
  * and update the button used to fetch data.
  */
 
-function showLoadingView() {}
+function showLoadingView() {
+	const loader = document.getElementById('loader');
+	loader.className = 'loading';
+	const timeId = setTimeout(hideLoadingView, 3500);
+}
+
+function restart() {
+	console.log('Reloading..');
+	showLoadingView();
+	categories.length = 0;
+	const table = document.getElementById('jeopardy');
+	table.removeChild(table.childNodes[1]);
+	table.removeChild(table.childNodes[1]);
+	fillTable();
+}
 
 /** Remove the loading spinner and update the button used to fetch data. */
 
-function hideLoadingView() {}
+function hideLoadingView() {
+	const loader = document.getElementById('loader');
+	loader.className = 'loaded';
+}
 
 /** Start game:
  *
@@ -199,6 +222,18 @@ function hideLoadingView() {}
  * - get data for each category
  * - create HTML table
  * */
+const startBtn = document.getElementById('start');
+startBtn.addEventListener('click', function (e) {
+	console.log('Party!');
+	// console.log(categories.length);
+	if (categories.length !== 0) {
+		restart();
+	} else {
+		startBtn.innerText = 'Restart!';
+		showLoadingView();
+		fillTable();
+	}
+});
 
 async function setupAndStart() {}
 
@@ -209,3 +244,8 @@ async function setupAndStart() {}
 /** On page load, add event handler for clicking clues */
 
 // TODO
+
+// Questions:
+// How to get rid of the <i> tags in the answers?
+// How to make the loader work better (wait for the page to load then disappear)?
+// How to vertical align middle the clues and answer?
