@@ -17,13 +17,14 @@ h1 {
 
 div#game {
 	text-align: center;
+	vertical-align: middle;
+	display: table;
 }
 
 #jeopardy,
 #jeopardy thead,
 #jeopardy td,
-#jeopardy tr,
-#jeopardy tbody td tr {
+#jeopardy tr {
 	border: 1px solid white;
 	background-color: #060ce9;
 	font-family: IBM Plex Sans;
@@ -32,11 +33,28 @@ div#game {
 	text-align: center;
 }
 
-tr {
+td {
+	height: 120px;
+	width: 150px;
+	color: #74119c;
+	vertical-align: middle;
+}
+
+tbody td {
 	border: 1px solid white;
-	background-color: #060ce9;
-	font-family: IBM Plex Sans;
-	color: white;
-	font-size: 15px;
 	text-align: center;
+	vertical-align: middle;
+	font-size: 10px;
+	color: lightgoldenrodyellow;
+}
+
+tr.clues {
+	height: 120px;
+	width: 100%;
+	border: 1px solid white;
+	text-align: center;
+	font-size: 10px;
+	color: lightgoldenrodyellow;
+	vertical-align: middle;
+	display: inline-table;
 }

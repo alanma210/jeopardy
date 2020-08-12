@@ -59,7 +59,7 @@ async function getCategoryIds() {
 	const uniqueCats = [...new Set(cat_ids)];
 	cat_ids = shuffle(uniqueCats);
 	cat_ids = cat_ids.slice(0, 6);
-	// console.log(cat_ids);
+	console.log(cat_ids);
 	return cat_ids;
 }
 
@@ -81,11 +81,21 @@ async function getCategory(catId) {
 	const url = `https://jservice.io/api/category/?id=${catId}`;
 	const res = await axios.get(url);
 	cat.title = res.data.title; // assign title to cat object
-	const clues = res.data.clues; // extract array of clues
+	cat.catId = catId;
+	let clues = res.data.clues; // extract array of clues
+	clues = shuffle(clues);
+	// console.log(clues);
 	const clueArray = [];
 	let clueObj = {}; // create clue objects
+
 	for (let clue of clues) {
-		clueObj = { question: clue.question, answer: clue.answer, showing: 'null' };
+		clueObj = {
+			id: clue.id,
+			question: clue.question,
+			answer: clue.answer,
+			showing: 'null'
+		};
+		// console.log(clueObj);
 		clueArray.push(clueObj); // attach clue objects to clueArray
 	}
 	cat.clues = clueArray; // attach clueArray to cat object
@@ -114,19 +124,25 @@ async function fillTable() {
 	const tHeader = document.createElement('thead');
 	const topRow = document.createElement('tr');
 	const tBody = document.createElement('tbody');
+	tBody.addEventListener('click', handleClick);
 	for (let cat_id of cat_ids) {
 		const headCell = document.createElement('td');
 		const cats = await getCategory(cat_id);
+		headCell.setAttribute('id', cat_id);
 		headCell.innerText = cats.title.toUpperCase();
 		topRow.append(headCell);
 	}
 	tHeader.append(topRow);
 	table.append(tHeader);
 
-	for (let cat_id of cat_ids) {
+	for (let i = 0; i < 6; i++) {
 		const headCell = document.createElement('td');
-		for (let i = 0; i < 5; i++) {
+
+		for (let j = 0; j < 5; j++) {
 			const bodyCell = document.createElement('tr');
+			// console.log(categories[i].clues[j].id);
+			bodyCell.setAttribute('id', i + '-' + j);
+			bodyCell.className = 'clues';
 			bodyCell.innerText = '?';
 			headCell.append(bodyCell);
 			tBody.append(headCell);
@@ -145,7 +161,27 @@ fillTable();
  * - if currently "answer", ignore click
  * */
 
-function handleClick(evt) {}
+function handleClick(e) {
+	const target = e.target.id;
+	console.log(target);
+	const targetCell = document.getElementById(target);
+	console.log(targetCell);
+	const x = target.substr(0, 1);
+	const y = target.substr(2, 1);
+	const cat = categories[x].title;
+	console.log(cat);
+	const clue = categories[x].clues[y];
+	console.log(clue);
+	console.log(clue.question);
+	if (clue.showing === 'null') {
+		clue.showing = 'question';
+		targetCell.innerText = clue.question;
+	} else if (clue.showing === 'question') {
+		clue.showing = 'answer';
+		targetCell.innerText = clue.answer;
+	} else {
+	}
+}
 
 /** Wipe the current Jeopardy board, show the loading spinner,
  * and update the button used to fetch data.
