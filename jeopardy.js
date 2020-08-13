@@ -36,6 +36,19 @@ function shuffle(array) {
 	return array;
 }
 
+const startBtn = document.getElementById('start');
+startBtn.addEventListener('click', function (e) {
+	console.log('Party!');
+	// console.log(categories.length);
+	if (categories.length !== 0) {
+		restart();
+	} else {
+		startBtn.innerText = 'Restart!';
+		showLoadingView();
+		fillTable();
+	}
+});
+
 /** Get NUM_CATEGORIES random category from API.
  *
  * Returns array of category ids
@@ -196,6 +209,7 @@ function handleClick(e) {
 function showLoadingView() {
 	const loader = document.getElementById('loader');
 	loader.className = 'loading';
+	startBtn.innerText = 'loading...';
 	const timeId = setTimeout(hideLoadingView, 3500);
 }
 
@@ -214,6 +228,7 @@ function restart() {
 function hideLoadingView() {
 	const loader = document.getElementById('loader');
 	loader.className = 'loaded';
+	startBtn.innerText = 'Restart!';
 }
 
 /** Start game:
@@ -222,18 +237,6 @@ function hideLoadingView() {
  * - get data for each category
  * - create HTML table
  * */
-const startBtn = document.getElementById('start');
-startBtn.addEventListener('click', function (e) {
-	console.log('Party!');
-	// console.log(categories.length);
-	if (categories.length !== 0) {
-		restart();
-	} else {
-		startBtn.innerText = 'Restart!';
-		showLoadingView();
-		fillTable();
-	}
-});
 
 async function setupAndStart() {}
 
